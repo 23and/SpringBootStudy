@@ -1,4 +1,4 @@
-package io.daumkaka.clean;
+package io.daumkakao.clean;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

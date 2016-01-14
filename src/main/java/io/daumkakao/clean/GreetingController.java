@@ -1,4 +1,4 @@
-package io.daumkaka.clean;
+package io.daumkakao.clean;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

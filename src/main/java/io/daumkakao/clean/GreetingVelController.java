@@ -1,4 +1,4 @@
-package io.daumkaka.clean;
+package io.daumkakao.clean;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
