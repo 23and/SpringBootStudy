@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head lang="ko">
+	    <meta charset="UTF-8">
+	    <title>index</title>
+	    <script>
+			function updateCheck(){
+				var updateCheckValue;
+				updateCheckValue = confirm("수정하시겠습니까?")
+				if (updateCheckValue == true){
+					return true;
+				}
+				return false;
+			}
+	</script>
+	</head>
+	<body>
+		<div align="center">
+		<p>수정 페이지</p>
+			<form action="$link.getContextPath()/board/update" method="post">
+				<input type="hidden" name="boardId" value="$bean.boardId">
+				<table border=1 style="width: 500px">
+					<tr>
+						<td>제목</td>
+						<td><input type="text" name="title" value="$bean.title"></td>
+					</tr>
+					<tr>
+						<td>글쓴이</td>
+						<td>$bean.name<input type="hidden" name="name"></td>
+					</tr>
+					<tr>
+						<td>날짜</td>
+						<td>$bean.writeDate</td>
+					</tr>
+					<tr>
+						<td>조회수</td>
+						<td>$bean.views</td>
+					</tr>				
+					<tr>
+						<td>내용</td>
+						<td><textarea name="content" style="width: 300px; height: 200px;">$bean.content</textarea></td>
+					</tr>
+				</table><br>
+				<input type="submit" value="확인" onclick="return updateCheck()"/>
+				<a href="$link.getContextPath()/board/index/1">목록보기</a>
+			</form>
+		</div>	
+	</body>
+</html>

@@ -1,0 +1,60 @@
+## List<CleanBoardBean> list
+
+<!DOCTYPE html>
+<html>
+	<head lang="ko">
+	    <meta charset="UTF-8">
+	    <title>Clean Board</title>
+	    <script>
+			function check() {
+				var checkKeyword = document.search.keyword;
+
+				if(checkKeyword.value.length == 0){
+					alert("검색을 입력하세요");
+					checkKeyword.focus();
+					return false;
+				}
+				return true;
+			}
+		</script>
+	</head>
+	<body>
+		<div align="center">
+			<p>게시판</p>
+			#if($cleanBoardList.size() == 0)
+			<p>게시글이 없습니다.</p>
+			#else
+			<table border=1 style="width: 500px">
+				<tr>
+					<td>번호</td>
+					<td>제목</td>
+				    <td>글쓴이</td>
+				    <td>날짜</td>
+				    <td>조회수</td>
+				</tr>
+				#foreach($list in $cleanBoardList)
+		    	<tr>
+			    	<td>$list.boardId</td>
+			    	<td><a href="$link.getContextPath()/board/readContent/$list.boardId">$list.title</a></td>
+			    	<td>$list.name</td>
+			    	<td>$list.writeDate</td>
+			    	<td>$list.views</td>
+		        </tr>
+		    	#end
+		    #end
+			</table><br>
+			#foreach($i in [1..$pageCount])
+				<a href="$i">[$i]</a>
+			#end 
+			<form name="search" action="$link.getContextPath()/board/search" method="get">
+				<input type="radio" name="scope" value="title">제목
+				<input type="radio" name="scope" value="content">내용	
+				<input type="radio" name="scope" value="name">글쓴이					
+				<input type="text" name="keyword" style="width: 300px;height: 20px;">
+				<input type="submit" value="검색" onclick="return check()"/>
+			</form><br>
+			<a href="$link.getContextPath()/board/index/1">목록보기</a> 
+			<a href="$link.getContextPath()/board/write">글쓰기</a>
+		</div>
+	</body>
+</html>

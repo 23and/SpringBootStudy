@@ -1,0 +1,22 @@
+CleanBoard API (제공형태 : json)
+
+1. 글쓰기
+ - POST : board/api/insert
+ - 요청 값 : title, content, name
+
+2. 게시글 전체 목록 보기
+ - GET : board/api/index
+
+3. 상세페이지 보기
+ - GET : board/api/readContent/id 값
+
+4. 수정
+ - PUT : board/api/update/id 값
+ - 요청 값 : title, content
+
+5. 삭제
+ - DELETE : board/api/delete/id 값
+
+6. 검색
+ - GET : board/api/search/범위 값/키워드 값
+ - 범위 : title, content, name

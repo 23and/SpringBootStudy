@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head lang="ko">
+	    <meta charset="UTF-8">
+	    <title>index</title>
+		<script>
+			function check() {
+				var checkTitle = document.getElementById("title");
+				var checkName = document.getElementById("name");
+				
+				if(checkTitle.value.length == 0){
+					alert("제목을 입력하세요");
+					checkTitle.focus();
+					return false;
+				}else if(checkName.value.length == 0){
+					alert("글쓴이를 입력하세요");
+					checkName.focus();
+					return false;
+				}
+				return true;
+			}
+		</script>
+	</head>
+	<body>
+	<div align="center">
+		<p>글쓰기</p>
+		<form name="write" action="$link.getContextPath()/board/insert" method="post">
+			<table border=1 style="width: 500px">
+				<tr>
+					<td>제목</td>
+					<td><input type="text" name="title" id="title"></td>
+				</tr>
+				<tr>
+					<td>글쓴이</td>
+					<td><input type="text" name="name" id="name"></td>
+				</tr>
+				<tr>
+					<td>내용</td>	
+					<td><textarea name="content" style="width: 300px;height: 200px;"></textarea></td>
+				</tr>
+			</table><br>
+			<input type="submit" value="확인" onclick="return check()"/>
+			<a href="$link.getContextPath()/board/index/1">목록보기</a>
+		</form>
+	</div>
+	</body>
+</html>

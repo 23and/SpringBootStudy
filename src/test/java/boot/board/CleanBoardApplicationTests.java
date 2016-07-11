@@ -1,18 +1,17 @@
-package io.daumkaka.clean;
+package boot.board;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.web.WebAppConfiguration;
-
-import io.daumkakao.clean.HelloApplication;
-
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import boot.board.CleanBoardApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = HelloApplication.class)
+@SpringApplicationConfiguration(classes = CleanBoardApplication.class)
 @WebAppConfiguration
-public class HelloApplicationTests {
+public class CleanBoardApplicationTests {
 
 	@Test
 	public void contextLoads() {
