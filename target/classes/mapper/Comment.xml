@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boot.board.dao.CommentDao">
+	<resultMap id="CommentResultMap" type="boot.board.domain.CommentBean">
+		<result property="commentId" column="COMMENT_ID" />
+		<result property="content" column="CONTENT" />
+		<result property="name" column="NAME" />
+		<result property="writeDate" column="WRITE_DATE" />
+		<result property="parent" column="PARENT" />
+		<result property="indent" column="INDENT" />
+		<result property="boardId" column="BOARD_ID" />	
+	</resultMap>
+
+	<select id="selectCommentAll" resultMap="CommentResultMap">
+    	SELECT COMMENT_ID AS commentId, CONTENT, NAME, WRITE_DATE AS writeDate, PARENT, INDENT, STEP, BOARD_ID AS boardId
+    	FROM COMMENT 
+    	WHERE BOARD_ID = #{boardId} 
+    	ORDER BY PARENT ASC, STEP ASC
+    </select>
+    
+    <select id="selectCommentById" resultType="boot.board.domain.CommentBean">
+    	SELECT COMMENT_ID AS commentId, CONTENT, NAME, WRITE_DATE AS writeDate, PARENT, INDENT, STEP, BOARD_ID AS boardId
+    	FROM COMMENT 
+    	WHERE COMMENT_ID = #{commentId}
+    </select>
+    
+    <select id="lastNum" resultType="boot.board.domain.CommentBean">
+    	SELECT COMMENT_ID AS commentId
+    	FROM COMMENT 
+    	ORDER BY COMMENT_ID DESC 
+    	LIMIT 1;
+    </select>
+    
+	<insert id="insertComment" parameterType="boot.board.domain.CommentBean">
+		INSERT INTO COMMENT (CONTENT, NAME, WRITE_DATE, PARENT, INDENT, STEP, BOARD_ID) 
+		VALUE (#{content}, #{name}, NOW(), #{parent}, #{indent} + 1, #{step} + 1, #{boardId})
+	</insert>
+	
+	<update id="updateComment" parameterType="boot.board.domain.CommentBean">
+		UPDATE COMMENT
+		SET STEP = STEP + 1
+		WHERE PARENT = #{parent} AND STEP > #{step}
+	</update>
+	
+	<delete id="deleteCommentById" parameterType="int">
+		DELETE 
+		FROM COMMENT 
+		WHERE COMMENT_ID = #{commentId}
+	</delete>
+</mapper>

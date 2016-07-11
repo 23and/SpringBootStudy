@@ -1,0 +1,113 @@
+## List<CommentBean> list
+
+<!DOCTYPE html>
+<html>
+	<head lang="ko">
+	    <meta charset="UTF-8">
+	    <title>readContent</title>
+	    <script>
+	    	function check() {
+	    		var checkContent = document.getElementById("content");
+				var checkName = document.getElementById("name");
+				
+				if(checkContent.value.length == 0){
+					alert("내용을 입력하세요");
+					checkContent.focus();
+					return false;
+				}if(checkName.value.length == 0){
+					alert("글쓴이를 입력하세요");
+					checkName.focus();
+					return false;
+				}
+				return true;
+			}
+
+			function deleteCheck(boardId, commentId){
+				var deleteCheckValue;
+				deleteCheckValue = confirm("삭제하시겠습니까?")
+				if (deleteCheckValue == true){
+					if (commentId == null){
+						location.href="$link.getContextPath()/board/delete/" + boardId;						
+					}else{
+						location.href="$link.getContextPath()/board/comment/delete/"+ commentId + "/" + boardId;
+					}
+				}
+			}
+
+		    function comment(commentId, step, indent) {
+			    document.getElementById("parent").value = commentId;
+			    document.getElementById("step").value = step;
+			    document.getElementById("indent").value = indent;
+			    document.getElementById("commentText").innerHTML = commentId;
+			    document.getElementById("content").focus();
+			}
+		</script>
+	</head>
+	<body>
+		<div align="center">
+			<p>게시글</p>
+			<table border=1 style="width: 800px">
+				<tr>
+					<td>제목</td>
+					<td>$bean.title</td>
+				</tr>
+				<tr>
+					<td>글쓴이</td>
+					<td>$bean.name</td>
+				</tr>
+				<tr>
+					<td>날짜</td>
+					<td>$bean.writeDate</td>
+				</tr>
+				<tr>
+					<td>조회수</td>
+					<td>$bean.views</td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td style="height: 200px;">$bean.content</td>
+				</tr>
+				<tr>
+					<td>댓글</td>
+					<td>
+						#if($commentList.size() == 0)
+						<p>댓글이 없습니다</p>
+						#else
+						<table border=1>
+							#foreach($list in $commentList)
+								<tr>
+									<td>$list.commentId</td>
+									<td>
+										#foreach($i in [1..$list.indent])
+										re]
+										#end 
+										$list.content
+									</td>
+									<td>$list.name</td>
+									<td>$list.writeDate</td>
+									<td><button type="button" onclick="comment($list.commentId, $list.step, $list.indent)">댓글달기</button></td>
+									<td><input type="button" value="삭제하기" onclick="deleteCheck($list.boardId, $list.commentId)"/></td>
+								</tr>
+							#end
+						</table>
+						#end
+						
+						<form action="$link.getContextPath()/board/comment/writeComment" method="post" id="commentForm">
+							<div id="commentText"></div>
+							<input type="hidden" name="parent" id="parent" value="$countNum">
+							<input type="hidden" name="boardId" value="$bean.boardId">
+							<input type="hidden" name="step" id="step" value="0">
+							<input type="hidden" name="indent" id="indent" value="0">
+							내용<input type="text" name="content" id="content"> 글쓴이<input type="text" name="name" id="name">
+							<input type="submit" value="확인" onclick="return check()"/>
+						</form>
+					</td>
+				</tr>
+			</table><br>
+			
+			<a href="$link.getContextPath()/board/index/1">목록보기</a>  
+			<a href="$link.getContextPath()/board/updateForm/$bean.boardId">수정하기</a>  
+			<input type="button" value="삭제하기" onclick="deleteCheck($bean.boardId)"/>
+		</div>
+	</body>
+</html>

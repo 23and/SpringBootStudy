@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boot.board.dao.CleanBoardDao">
+	<resultMap id="CleanBoardResultMap" type="boot.board.domain.CleanBoardBean">
+		<result property="boardId" column="BOARD_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="name" column="NAME" />
+		<result property="writeDate" column="WRITE_DATE" />
+		<result property="views" column="VIEWS" />
+	</resultMap>
+	
+	<select id="selectCleanBoardAll" resultMap="CleanBoardResultMap">
+    	SELECT BOARD_ID AS boardId, TITLE, CONTENT, NAME, WRITE_DATE AS writeDate, VIEWS
+    	FROM CLEAN_BOARD 
+    	ORDER BY BOARD_ID DESC
+    </select>
+    
+    <select id="selectCleanBoardPage" resultMap="CleanBoardResultMap">
+    	SELECT BOARD_ID AS boardId, TITLE, CONTENT, NAME, WRITE_DATE AS writeDate, VIEWS
+    	FROM CLEAN_BOARD 
+    	ORDER BY BOARD_ID DESC 
+    	LIMIT #{boardId}, 5
+    </select>
+    
+    <select id="selectCleanBoardById" resultType="boot.board.domain.CleanBoardBean">
+    	SELECT BOARD_ID AS boardId, TITLE, CONTENT, NAME, WRITE_DATE AS writeDate, VIEWS
+    	FROM CLEAN_BOARD 
+    	WHERE BOARD_ID = #{boardId}
+    </select>
+    
+	<insert id="insertCleanBoard" parameterType="boot.board.domain.CleanBoardBean">
+		INSERT INTO CLEAN_BOARD (TITLE, CONTENT, NAME, WRITE_DATE, VIEWS) 
+		VALUE (#{title}, #{content}, #{name}, NOW(), 0)
+	</insert>
+	
+	<update id="updateCleanBoard" parameterType="boot.board.domain.CleanBoardBean">
+		UPDATE CLEAN_BOARD
+		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	<delete id="deleteCleanBoardById" parameterType="int">
+		DELETE 
+		FROM CLEAN_BOARD 
+		WHERE BOARD_ID = #{boardId}
+	</delete>
+
+	<select id="searchCleanBoard" parameterType="boot.board.dto.SearchDto" resultMap="CleanBoardResultMap">
+    	SELECT BOARD_ID AS boardId, TITLE, CONTENT, NAME, WRITE_DATE AS writeDate, VIEWS
+    	FROM CLEAN_BOARD WHERE 
+    	<if test="scope == 'title'">
+    		TITLE 
+    	</if>
+    	<if test="scope == 'content'">
+    		CONTENT 
+    	</if>
+		<if test="scope == 'name'">
+    		NAME 
+    	</if>
+    	LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <update id="updateCleanBoardViews" parameterType="int">
+		UPDATE CLEAN_BOARD
+		SET VIEWS = VIEWS + 1
+		WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	<select id="countCleanBoardAll" resultType="int">
+		SELECT COUNT(BOARD_ID)
+		FROM CLEAN_BOARD
+    </select>
+</mapper>
